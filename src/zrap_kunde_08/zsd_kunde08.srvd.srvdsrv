@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service Definition'
+define service ZSD_KUNDE08 {
+  expose ZC_Kunde08;
+  expose ZC_Bestellung08;
+}

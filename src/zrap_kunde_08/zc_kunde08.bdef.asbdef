@@ -1,0 +1,26 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_Kunde08 //alias Kunde
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Bestellungen { create; }
+}
+
+define behavior for ZC_Bestellung08 //alias Bestellung
+{
+  use update;
+  use delete;
+
+  use association _Kunde;
+}

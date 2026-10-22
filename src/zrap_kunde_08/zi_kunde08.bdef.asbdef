@@ -1,0 +1,79 @@
+managed implementation in class zbp_i_kunde08 unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_Kunde08 //alias <alias_name>
+persistent table zdb_kunde08
+draft table zdb_Kunde08_d
+lock master
+total etag Datum
+authorization master ( none )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  field ( mandatory : create, readonly : update ) KundenNr;
+  association _Bestellungen { create; with draft; }
+
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+
+  mapping for zdb_kunde08
+    {
+      KundenNr = kdnr;
+      Anrede   = anrede;
+      Name     = name;
+      Vorname  = vorname;
+      Firma    = firma;
+      Strasse  = strasse;
+      Ort      = ort;
+      Land     = land;
+      Plz      = plz;
+      Sperre   = sperre;
+      Datum    = datum;
+      Umsatz   = umsatz;
+      Fax      = fax;
+      Telefon  = telefon;
+      Email    = email;
+      Url      = url;
+      Waehrung = waehrung;
+      Sprache  = sprache;
+      Weblogin = weblogin;
+      Webpw    = webpw;
+      Memo     = memo;
+    }
+
+}
+
+define behavior for ZI_Bestellung08 //alias <alias_name>
+persistent table zdb_bestel08
+draft table zdb_bestell08_d
+lock dependent by _Kunde
+authorization dependent by _Kunde
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly : update ) BestellNr;
+  field ( readonly ) KundenNr;
+  association _Kunde;
+
+  mapping for zdb_bestel08
+    {
+      BestellNr = bstnr;
+      KundenNr  = kdnr;
+      Datum     = datum;
+      Summe     = summe;
+      Rabatt    = rabatt;
+      Info      = info;
+      Status    = status;
+      Waehrung  = waehrung;
+    }
+
+}
